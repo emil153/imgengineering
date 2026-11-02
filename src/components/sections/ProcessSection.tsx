@@ -1,5 +1,5 @@
 import { processSteps } from "@/content/site";
-import { PrototypeNote, SectionHeader } from "../ui";
+import { PrototypeNote, SectionHeader, TONES, cx, tone } from "../ui";
 
 /** Horizontal timeline on desktop, vertical on mobile. Proposed process pending confirmation. */
 type Step = { title: string; text: string };
@@ -22,16 +22,16 @@ export function ProcessSection({
           {/* desktop connector line */}
           <span aria-hidden="true" className="absolute left-0 right-0 top-[19px] hidden h-px bg-black/20 lg:block" />
           {steps.map((s, i) => (
-            <li key={s.title} className="reveal relative grid grid-cols-[2.5rem_1fr] gap-x-5 pb-10 last:pb-0 lg:block lg:pb-0">
+            <li key={s.title} className="reveal group relative grid grid-cols-[2.5rem_1fr] gap-x-5 pb-10 last:pb-0 lg:block lg:pb-0">
               {/* mobile connector line */}
               {i < steps.length - 1 && (
                 <span aria-hidden="true" className="absolute bottom-0 left-[19px] top-10 w-px bg-black/20 lg:hidden" />
               )}
               <span
-                className={
-                  "relative z-10 flex h-10 w-10 items-center justify-center border font-mono text-xs font-medium " +
-                  (i === 0 ? "border-img-green bg-img-green text-white" : "border-black bg-white text-img-black")
-                }
+                className={cx(
+                  "relative z-10 flex h-10 w-10 items-center justify-center font-mono text-xs font-medium transition-transform duration-300 group-hover:scale-110",
+                  i === 0 ? "bg-img-green text-white" : cx(tone[TONES[i % 4]].tint, "text-img-black"),
+                )}
               >
                 {String(i + 1).padStart(2, "0")}
               </span>

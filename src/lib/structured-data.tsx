@@ -21,7 +21,15 @@ export function organizationSchema() {
       addressCountry: company.address.country,
     },
     ...(company.email ? { email: company.email } : {}),
-    areaServed: { "@type": "Country", name: "България" },
+    sameAs: [company.facebook],
+    areaServed: [
+      { "@type": "City", name: "София" },
+      {
+        "@type": "GeoCircle",
+        geoMidpoint: { "@type": "GeoCoordinates", latitude: company.geo.lat, longitude: company.geo.lng },
+        geoRadius: "30000",
+      },
+    ],
     openingHoursSpecification: company.hours.schema.map((h) => ({
       "@type": "OpeningHoursSpecification",
       dayOfWeek: h.days,

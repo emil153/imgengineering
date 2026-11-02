@@ -9,8 +9,8 @@ export function ProjectCard({ project, sizes = "(min-width: 768px) 33vw, 100vw" 
   return (
     <Link href={`/proekti/${project.slug}/`} data-event="project_view" className="group block">
       <div className="relative aspect-[4/3] overflow-hidden bg-img-grey-light">
-        <Image src={cover.src} alt={cover.alt} fill sizes={sizes} className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
-        <span className="absolute left-3 top-3 bg-white/90 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em]">
+        <Image src={cover.src} alt={cover.alt} fill sizes={sizes} className="object-cover transition-transform duration-700 group-hover:scale-[1.06]" />
+        <span className={"absolute left-3 top-3 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] " + (project.audience === "b2b" ? "bg-img-blue text-img-black" : "bg-img-yellow text-img-black")}>
           {project.photos.length} {project.photos.length === 1 ? "снимка" : "снимки"}
         </span>
       </div>

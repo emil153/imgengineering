@@ -100,7 +100,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section aria-labelledby="approach-title" className="bg-img-grey-light py-20 md:py-24">
+      <section aria-labelledby="approach-title" className="bg-img-green-soft py-20 md:py-24">
         <div className="container-x grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Eyebrow index="02">Нашият подход</Eyebrow>

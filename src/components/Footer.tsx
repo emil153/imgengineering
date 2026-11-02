@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import logoFull from "../../public/brand/img-logo-full.png";
 import { audiences, company, legalNav, mainNav, services } from "@/content/site";
+import { FacebookIcon } from "./ui";
 
 function Column({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -17,16 +18,37 @@ const linkClass = "transition-colors hover:text-img-green";
 
 export function Footer() {
   const year = new Date().getFullYear();
-  const companyLinks = mainNav.filter((i) => ["/proekti/", "/polezno/", "/za-nas/", "/kontakti/"].includes(i.href));
+  const companyLinks = [
+    ...mainNav.filter((i) => ["/oferti/", "/proekti/", "/polezno/", "/za-nas/", "/kontakti/"].includes(i.href)),
+    { label: "Онлайн магазин", href: "/magazin/" },
+  ];
 
   return (
-    <footer className="border-t border-black/10 bg-white">
+    <footer className="bg-white">
+      <div aria-hidden="true" className="grid h-1.5 grid-cols-4">
+        <span className="bg-img-blue" />
+        <span className="bg-img-red" />
+        <span className="bg-img-yellow" />
+        <span className="bg-img-green" />
+      </div>
       <div className="container-x grid gap-12 py-16 md:py-20 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <Link href="/" aria-label="IMG Engineering, към началната страница" className="inline-block">
             <Image src={logoFull} alt="" className="h-auto w-44" sizes="176px" />
           </Link>
           <p className="mt-6 max-w-sm leading-relaxed text-img-grey-dark">{company.description}</p>
+          <a
+            href={company.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex items-center gap-3 border border-black/15 px-4 py-2.5 text-[15px] font-medium transition-colors hover:border-img-blue hover:bg-img-blue-soft"
+          >
+            <span className="flex h-7 w-7 items-center justify-center bg-img-blue text-img-black">
+              <FacebookIcon />
+            </span>
+            Последвайте ни във Facebook
+            <span className="sr-only"> (отваря се в нов прозорец)</span>
+          </a>
         </div>
 
         <div className="grid gap-10 sm:grid-cols-2 lg:col-span-8 lg:grid-cols-4">

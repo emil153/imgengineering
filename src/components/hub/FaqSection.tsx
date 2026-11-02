@@ -30,8 +30,8 @@ export function FaqSection({ index, title, items }: { index: string; title: stri
         </div>
         <div className="border-t border-black/15 lg:col-span-8">
           {items.map((f) => (
-            <details key={f.q} className="group border-b border-black/15">
-              <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-lg font-semibold tracking-[-0.01em] marker:hidden md:text-xl [&::-webkit-details-marker]:hidden">
+            <details key={f.q} className="group border-b border-black/15 transition-colors open:bg-white/70 open:px-4 md:open:px-6">
+              <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-lg font-semibold tracking-[-0.01em] transition-colors marker:hidden hover:text-img-green md:text-xl [&::-webkit-details-marker]:hidden">
                 <span>{f.q}</span>
                 <span
                   aria-hidden="true"

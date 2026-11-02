@@ -23,7 +23,7 @@ const steps = [
 
 export default function QuotePage() {
   return (
-    <section aria-labelledby="quote-title" className="bg-img-grey-light">
+    <section aria-labelledby="quote-title" className="bg-img-blue-soft">
       <div className="container-x pt-8 md:pt-10">
         <Breadcrumbs items={[{ label: "Поискайте оферта", href: "/poiskayte-oferta/" }]} />
       </div>

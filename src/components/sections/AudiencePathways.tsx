@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { audiences } from "@/content/site";
-import { ArrowIcon, ButtonLink, Eyebrow, PlaceholderMedia } from "../ui";
+import { ArrowIcon, ButtonLink, Eyebrow, PlaceholderMedia, cx } from "../ui";
 
 /**
  * Two equal-weight customer journeys (50/50 B2C / B2B requirement).
@@ -9,10 +9,10 @@ import { ArrowIcon, ButtonLink, Eyebrow, PlaceholderMedia } from "../ui";
  */
 export function AudiencePathways() {
   return (
-    <section aria-labelledby="audience-title" className="bg-img-grey-light py-20 md:py-28">
+    <section aria-labelledby="audience-title" className="py-20 md:py-28">
       <div className="container-x">
         <div className="max-w-3xl">
-          <Eyebrow index="02">Две направления</Eyebrow>
+          <Eyebrow index="03">Две направления</Eyebrow>
           <h2 id="audience-title" className="mt-5 text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-[2.75rem]">
             Решения за вашия дом и за вашия бизнес.
           </h2>
@@ -20,15 +20,18 @@ export function AudiencePathways() {
 
         <div className="mt-12 grid gap-6 lg:grid-cols-2 lg:gap-8">
           {audiences.map((a) => (
-            <article key={a.key} aria-labelledby={`aud-${a.key}`} className="reveal flex flex-col bg-white">
+            <article key={a.key} aria-labelledby={`aud-${a.key}`} className={cx("reveal lift group/panel flex flex-col", a.key === "b2c" ? "bg-img-yellow-soft" : "bg-img-blue-soft")}>
               {a.media ? (
                 <div className="relative aspect-[16/9] overflow-hidden bg-img-grey-light">
+                  <span className={cx("absolute left-0 top-0 z-10 px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.12em]", a.key === "b2c" ? "bg-img-yellow text-img-black" : "bg-img-blue text-img-black")}>
+                    {a.eyebrow}
+                  </span>
                   <Image
                     src={a.media.src}
                     alt={a.media.alt}
                     fill
                     sizes="(min-width: 1024px) 600px, 100vw"
-                    className="object-cover"
+                    className="object-cover transition-transform duration-700 group-hover/panel:scale-[1.04]"
                   />
                 </div>
               ) : (
@@ -44,14 +47,14 @@ export function AudiencePathways() {
                 </h3>
                 <p className="mt-4 leading-relaxed text-img-grey-dark">{a.text}</p>
 
-                <ul className="mt-8 border-t border-black/10">
+                <ul className="mt-8 border-t border-black/15">
                   {a.links.map((l) => (
-                    <li key={l.href} className="border-b border-black/10">
+                    <li key={l.href} className="border-b border-black/15">
                       <Link
                         href={l.href}
                         data-event="audience_route_select"
                         data-audience={a.key}
-                        className="group flex items-center justify-between gap-4 py-3.5 font-medium transition-colors hover:text-img-green"
+                        className="group flex items-center justify-between gap-4 px-2 py-3.5 font-medium transition-colors hover:bg-white hover:text-img-green"
                       >
                         {l.label}
                         <ArrowIcon className="text-img-grey-dark transition-transform group-hover:translate-x-0.5 group-hover:text-img-green" />

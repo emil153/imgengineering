@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { company } from "@/content/site";
 import {
+  OFFER_OPTIONS,
   PROPERTY_OPTIONS_B2B,
   PROPERTY_OPTIONS_B2C,
   SERVICE_OPTIONS,
@@ -85,13 +86,21 @@ function Field({
 const describedBy = (id: string, error?: string, hint?: boolean) =>
   [hint ? `${id}-hint` : null, error ? `${id}-error` : null].filter(Boolean).join(" ") || undefined;
 
-export function QuoteForm() {
+type QuoteFormProps = {
+  /** Pre-attach an offer (e.g. the new-customer discount form). URL ?oferta= also works. */
+  offer?: string;
+  submitLabel?: string;
+};
+
+export function QuoteForm({ offer: fixedOffer, submitLabel = "Изпратете запитване" }: QuoteFormProps = {}) {
   const formRef = useRef<HTMLFormElement>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
   const successRef = useRef<HTMLHeadingElement>(null);
   const started = useRef(false);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<Status>({ kind: "idle" });
+  const [offer, setOffer] = useState<string | null>(fixedOffer ?? null);
+  const offerLabel = offer ? OFFER_OPTIONS.find((o) => o.value === offer)?.label : null;
 
   // Prefill from ?za=doma|biznes and ?usluga=<slug>; stamp the start time for the spam check.
   useEffect(() => {
@@ -103,9 +112,11 @@ export function QuoteForm() {
     const za = q.get("za");
     const audience = za === "biznes" ? "b2b" : za === "doma" ? "b2c" : null;
     if (audience) (form.querySelector(`input[name="audience"][value="${audience}"]`) as HTMLInputElement | null)?.click();
+    const oferta = q.get("oferta");
+    if (!fixedOffer && oferta && OFFER_OPTIONS.some((o) => o.value === oferta)) setOffer(oferta);
     const usluga = q.get("usluga");
     if (usluga && SERVICE_OPTIONS.some((o) => o.value === usluga)) (form.elements.namedItem("service") as HTMLSelectElement).value = usluga;
-  }, []);
+  }, [fixedOffer]);
 
   const onFirstInteraction = () => {
     if (started.current) return;
@@ -138,7 +149,7 @@ export function QuoteForm() {
       const res = await fetch("/api/quote/", { method: "POST", body: fd, headers: { accept: "application/json" } });
       const body = await res.json().catch(() => null);
       if (res.ok && body?.ok) {
-        track("quote_form_submit", { audience: check.data.audience, service: check.data.service });
+        track("quote_form_submit", { audience: check.data.audience, service: check.data.service, offer: check.data.offer ?? "" });
         setStatus({ kind: "success", id: body.id });
         requestAnimationFrame(() => successRef.current?.focus());
         return;
@@ -173,6 +184,7 @@ export function QuoteForm() {
           Благодарим! Получихме вашето запитване.
         </h2>
         <p className="mt-4 text-lg leading-relaxed text-img-grey-dark">Наш специалист ще се свърже с вас, за да уточни детайлите.</p>
+        {offerLabel && <p className="mt-2 text-lg leading-relaxed">Офертата „{offerLabel}“ е отбелязана в запитването ви.</p>}
         <p className="mt-2 font-mono text-sm text-img-grey-dark">Номер на запитването: {status.id}</p>
         <p className="mt-6 leading-relaxed">
           Ако е спешно, обадете се на{" "}
@@ -205,6 +217,7 @@ export function QuoteForm() {
     >
       <input type="hidden" name="t" defaultValue="0" />
       <input type="hidden" name="page" defaultValue="" />
+      <input type="hidden" name="offer" value={offer ?? ""} readOnly />
       {/* Honeypot: hidden from people and assistive tech, attractive to bots. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label htmlFor="qf-website">Уебсайт</label>
@@ -239,6 +252,20 @@ export function QuoteForm() {
               {company.email}
             </a>
           </p>
+        </div>
+      )}
+
+      {offerLabel && (
+        <div className="mb-8 flex items-start justify-between gap-4 border-l-2 border-img-green bg-img-green-soft px-5 py-4">
+          <p className="text-[15px]">
+            <span className="block font-mono text-[11px] uppercase tracking-[0.14em] text-img-grey-dark">Оферта</span>
+            <span className="font-semibold">{offerLabel}</span>
+          </p>
+          {!fixedOffer && (
+            <button type="button" onClick={() => setOffer(null)} className="shrink-0 text-sm underline underline-offset-2 hover:text-img-green">
+              Премахни
+            </button>
+          )}
         </div>
       )}
 
@@ -398,7 +425,7 @@ export function QuoteForm() {
             Изпращане…
           </>
         ) : (
-          "Изпратете запитване"
+          submitLabel
         )}
       </button>
       <p aria-live="polite" className="sr-only">

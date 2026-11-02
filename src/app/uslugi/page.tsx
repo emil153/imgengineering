@@ -93,7 +93,7 @@ export default function ServicesIndexPage() {
         </ul>
       </section>
 
-      <section aria-labelledby="route-title" className="bg-img-grey-light py-16 md:py-20">
+      <section aria-labelledby="route-title" className="bg-img-blue-soft py-16 md:py-20">
         <div className="container-x">
           <h2 id="route-title" className="text-3xl font-semibold tracking-[-0.02em] md:text-[2.5rem]">
             Търсите решение за конкретен обект?

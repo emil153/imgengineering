@@ -1,6 +1,17 @@
 import Link from "next/link";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
+export type Tone = "red" | "blue" | "yellow" | "green";
+
+/** Brand tint classes per tone: soft = background behind text, tint = hover/accent, solid = marker. */
+export const tone: Record<Tone, { soft: string; tint: string; solid: string; hoverSoft: string; border: string }> = {
+  red: { soft: "bg-img-red-soft", tint: "bg-img-red-tint", solid: "bg-img-red", hoverSoft: "hover:bg-img-red-soft", border: "border-img-red" },
+  blue: { soft: "bg-img-blue-soft", tint: "bg-img-blue-tint", solid: "bg-img-blue", hoverSoft: "hover:bg-img-blue-soft", border: "border-img-blue" },
+  yellow: { soft: "bg-img-yellow-soft", tint: "bg-img-yellow-tint", solid: "bg-img-yellow", hoverSoft: "hover:bg-img-yellow-soft", border: "border-img-yellow" },
+  green: { soft: "bg-img-green-soft", tint: "bg-img-green-tint", solid: "bg-img-green", hoverSoft: "hover:bg-img-green-soft", border: "border-img-green" },
+};
+export const TONES: Tone[] = ["blue", "red", "yellow", "green"];
+
 export function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
@@ -24,6 +35,14 @@ export function PhoneIcon({ className }: { className?: string }) {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24" className={cx("h-5 w-5", className)} fill="none" stroke="currentColor" strokeWidth="1.6">
       <path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2Z" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function FacebookIcon({ className }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className={cx("h-4 w-4", className)} fill="currentColor">
+      <path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1Z" />
     </svg>
   );
 }
@@ -59,7 +78,7 @@ type ButtonLinkProps = {
 /** Link styled as a button. External / tel: links render a plain anchor. */
 export function ButtonLink({ href, variant = "primary", children, className, withArrow = false, ...rest }: ButtonLinkProps) {
   const classes = cx(
-    "group inline-flex min-h-12 items-center justify-center gap-3 px-6 text-[15px] font-medium transition-colors duration-200",
+    "group inline-flex min-h-12 items-center justify-center gap-3 px-6 text-[15px] font-medium transition-[color,background-color,transform,box-shadow] duration-200 motion-safe:hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-14px_rgb(0_0_0/0.5)]",
     buttonStyles[variant],
     className,
   );
@@ -89,7 +108,7 @@ export function ArrowLink({ href, children, className, ...rest }: { href: string
     <Link
       href={href}
       className={cx(
-        "group inline-flex items-center gap-2 border-b border-current pb-1 text-[15px] font-medium transition-colors",
+        "group inline-flex items-center gap-2 border-b border-current pb-1 text-[15px] font-medium transition-colors hover:text-img-green",
         className,
       )}
       {...rest}

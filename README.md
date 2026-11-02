@@ -1,4 +1,4 @@
-# IMG Engineering website (prototype v0.7)
+# IMG Engineering website (prototype v0.8)
 
 Next.js 16 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 4. No CMS or database yet.
 

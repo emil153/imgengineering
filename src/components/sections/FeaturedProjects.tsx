@@ -9,7 +9,7 @@ export function FeaturedProjects() {
   return (
     <section id="proekti" aria-labelledby="projects-title" className="border-t border-black/10 py-20 md:py-28">
       <div className="container-x">
-        <SectionHeader index="04" eyebrow="Проекти" title="Избрани обекти от нашата практика." id="projects-title">
+        <SectionHeader index="05" eyebrow="Проекти" title="Избрани обекти от нашата практика." id="projects-title">
           <ArrowLink href="/proekti/">Вижте всички проекти</ArrowLink>
         </SectionHeader>
 

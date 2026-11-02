@@ -4,7 +4,7 @@ import logoLockup from "../../public/brand/img-logo-lockup.png";
 import { company, mainNav, quoteHref } from "@/content/site";
 import { DesktopNav } from "./DesktopNav";
 import { MobileMenu } from "./MobileMenu";
-import { PhoneIcon } from "./ui";
+import { FacebookIcon, PhoneIcon } from "./ui";
 
 /** Slim utility bar with verified contact details (desktop only). */
 export function UtilityBar() {
@@ -13,12 +13,19 @@ export function UtilityBar() {
       <div className="container-x flex h-9 items-center justify-between font-mono text-[11px] uppercase tracking-[0.12em]">
         <p className="text-white/70">Отопление · Вентилация · Климатизация · Газификация</p>
         <div className="flex items-center gap-6">
+          <Link href="/magazin/" className="text-white/70 transition-colors hover:text-img-yellow">
+            Онлайн магазин
+          </Link>
           <span className="text-white/70">{company.hours.short}</span>
           <span className="text-white/70">
             {company.address.street}, {company.address.city}
           </span>
           <a href={company.phone.href} data-event="click_to_call" data-location="utility_bar" className="hover:text-img-yellow">
             {company.phone.display}
+          </a>
+          <a href={company.facebook} target="_blank" rel="noopener noreferrer" className="flex h-6 w-6 items-center justify-center text-white/80 transition-colors hover:bg-img-blue hover:text-img-black">
+            <FacebookIcon />
+            <span className="sr-only">IMG Engineering във Facebook (отваря се в нов прозорец)</span>
           </a>
         </div>
       </div>

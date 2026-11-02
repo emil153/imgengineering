@@ -12,7 +12,9 @@ import { LogoWall } from "../LogoWall";
 import { ContactCTA } from "../sections/ContactCTA";
 import { ProcessSection } from "../sections/ProcessSection";
 import { ServiceIcon } from "../ServiceIcon";
-import { ArrowIcon, ButtonLink, Eyebrow, PhoneIcon, PlaceholderMedia } from "../ui";
+import { ArrowIcon, ButtonLink, Eyebrow, PhoneIcon, PlaceholderMedia, TONES, cx, tone, type Tone } from "../ui";
+
+const toneOf: Record<string, Tone> = { heating: "red", cooling: "blue", energy: "yellow", neutral: "green" };
 
 /**
  * Service detail template (Master Brief section 7):
@@ -32,6 +34,7 @@ export function ServicePageView({ service }: { service: ServicePage }) {
     service.applications.b2b && { key: "b2b", label: "За бизнеса", hub: hubB2B.path, ...service.applications.b2b },
   ].filter(Boolean) as { key: string; label: string; hub: string; text: string; items: string[] }[];
 
+  const t = tone[toneOf[service.discipline]];
   let n = 0;
   const idx = () => String(++n).padStart(2, "0");
 
@@ -51,11 +54,12 @@ export function ServicePageView({ service }: { service: ServicePage }) {
       />
 
       {/* Hero */}
-      <section aria-labelledby="service-title" className="border-b border-black/10">
-        <div className="container-x pt-8 md:pt-10">
+      <section aria-labelledby="service-title" className={cx("relative overflow-hidden border-b border-black/10", t.soft)}>
+        <span aria-hidden="true" className={cx("absolute -right-20 -top-20 hidden h-80 w-80 rounded-full opacity-60 lg:block", t.tint)} />
+        <div className="container-x relative pt-8 md:pt-10">
           <Breadcrumbs items={service.crumbs ?? [{ label: "Услуги", href: "/uslugi/" }, { label: service.name, href: path }]} />
         </div>
-        <div className="container-x grid gap-10 pb-14 pt-10 lg:grid-cols-12 lg:gap-10 lg:pb-20 lg:pt-14">
+        <div className="container-x relative grid gap-10 pb-14 pt-10 lg:grid-cols-12 lg:gap-10 lg:pb-20 lg:pt-14">
           <div className="flex flex-col justify-center lg:col-span-6">
             <p className="flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.14em]">
               <span aria-hidden="true" className="h-2 w-2" style={{ background: disciplineColor[service.discipline] }} />
@@ -96,16 +100,9 @@ export function ServicePageView({ service }: { service: ServicePage }) {
           <h2 id="benefits-title" className="mt-5 text-3xl font-semibold tracking-[-0.02em] md:text-[2.75rem]">
             Защо да изберете това решение
           </h2>
-          <ul className="mt-12 grid border-t border-black/10 sm:grid-cols-2 lg:grid-cols-4">
+          <ul data-stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {service.benefits.map((b, i) => (
-              <li
-                key={b.title}
-                className={
-                  "reveal border-b border-black/10 py-7 sm:pr-6 lg:border-b-0 " +
-                  (i > 0 ? "lg:border-l lg:pl-6 " : "") +
-                  (i % 2 === 1 ? "sm:border-l sm:pl-6 " : "")
-                }
-              >
+              <li key={b.title} className={cx("lift p-6", tone[TONES[i % 4]].soft)}>
                 <span className="font-mono text-xs text-img-grey-dark">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="mt-3 text-lg font-semibold">{b.title}</h3>
                 <p className="mt-2 leading-relaxed text-img-grey-dark">{b.text}</p>
@@ -116,7 +113,7 @@ export function ServicePageView({ service }: { service: ServicePage }) {
       </section>
 
       {/* Applications by audience */}
-      <section aria-labelledby="apps-title" className="bg-img-grey-light py-20 md:py-24">
+      <section aria-labelledby="apps-title" className={cx("py-20 md:py-24", t.soft)}>
         <div className="container-x">
           <Eyebrow index={idx()}>Приложение</Eyebrow>
           <h2 id="apps-title" className="mt-5 text-3xl font-semibold tracking-[-0.02em] md:text-[2.75rem]">
@@ -124,7 +121,7 @@ export function ServicePageView({ service }: { service: ServicePage }) {
           </h2>
           <div className={"mt-12 grid gap-6 lg:gap-8 " + (audiences.length > 1 ? "lg:grid-cols-2" : "lg:max-w-3xl")}>
             {audiences.map((a) => (
-              <div key={a.key} id={a.key === "b2c" ? "za-doma" : "za-biznesa"} className="flex flex-col bg-white p-6 md:p-10">
+              <div key={a.key} id={a.key === "b2c" ? "za-doma" : "za-biznesa"} className="lift flex flex-col bg-white p-6 md:p-10">
                 <p className="font-mono text-xs font-medium uppercase tracking-[0.14em]">
                   <span className="mr-2 inline-block h-2 w-2 bg-img-green align-middle" aria-hidden="true" />
                   {a.label}
@@ -171,7 +168,7 @@ export function ServicePageView({ service }: { service: ServicePage }) {
               {service.systems.note && <p className="mt-3 text-img-grey-dark">{service.systems.note}</p>}
               <ul className="mt-10 grid gap-px border border-black/10 bg-black/10 sm:grid-cols-2">
                 {service.systems.items.map((s) => (
-                  <li key={s.title} className="bg-white p-6">
+                  <li key={s.title} className={cx("bg-white p-6 transition-colors duration-300", t.hoverSoft)}>
                     <span aria-hidden="true" className="block h-[3px] w-8" style={{ background: disciplineColor[service.discipline] }} />
                     <h3 className="mt-5 text-lg font-semibold">{s.title}</h3>
                     <p className="mt-2 text-[15px] leading-relaxed text-img-grey-dark">{s.text}</p>
@@ -202,7 +199,7 @@ export function ServicePageView({ service }: { service: ServicePage }) {
                   <li key={p.src}>
                     <figure>
                       <div className="relative aspect-[4/3] overflow-hidden bg-img-grey-light">
-                        <Image src={p.src} alt={p.alt} fill sizes="(min-width: 768px) 33vw, 50vw" className="object-cover" />
+                        <Image src={p.src} alt={p.alt} fill sizes="(min-width: 768px) 33vw, 50vw" className="object-cover transition-transform duration-700 hover:scale-[1.05]" />
                       </div>
                       <figcaption className="mt-2 font-mono text-[11px] uppercase leading-snug tracking-[0.1em] text-img-grey-dark">{p.caption}</figcaption>
                     </figure>
@@ -223,7 +220,7 @@ export function ServicePageView({ service }: { service: ServicePage }) {
       </section>
 
       {/* FAQ */}
-      <div className="border-t border-black/10 bg-img-grey-light">
+      <div className="border-t border-black/10 bg-img-blue-soft">
         <FaqSection index={idx()} title={`Въпроси за ${inSentence(service.name)}`} items={service.faq} />
       </div>
 
@@ -236,7 +233,7 @@ export function ServicePageView({ service }: { service: ServicePage }) {
           <ul className="mt-6 grid gap-px border border-black/10 bg-black/10 md:grid-cols-3">
             {related.map((r) => (
               <li key={r.slug} className="bg-white">
-                <Link href={`/uslugi/${r.slug}/`} className="group flex h-full items-start gap-5 p-6 transition-colors hover:bg-img-grey-light lg:p-7">
+                <Link href={`/uslugi/${r.slug}/`} className={cx("group flex h-full items-start gap-5 p-6 transition-colors lg:p-7", tone[toneOf[r.discipline]].hoverSoft)}>
                   <ServiceIcon name={r.icon} className="h-8 w-8 shrink-0" />
                   <span className="flex-1">
                     <span className="block text-lg font-semibold group-hover:text-img-green">{r.name}</span>

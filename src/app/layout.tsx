@@ -10,6 +10,9 @@ import "./globals.css";
 import { company } from "@/content/site";
 import { Header, MobileActionBar, UtilityBar } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { HeaderScroll } from "@/components/HeaderScroll";
+import { OfferBanner } from "@/components/OfferBanner";
+import { RevealObserver } from "@/components/RevealObserver";
 
 export const metadata: Metadata = {
   metadataBase: new URL(company.url),
@@ -39,6 +42,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="bg">
+      <head>
+        {/* Marks JS as available before first paint, so reveal animations never hide content without JS. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body>
         <a
           href="#main"
@@ -46,8 +53,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           Към основното съдържание
         </a>
+        <OfferBanner />
         <UtilityBar />
         <Header />
+        <HeaderScroll />
+        <RevealObserver />
         <main id="main" tabIndex={-1} className="outline-none">
           {children}
         </main>

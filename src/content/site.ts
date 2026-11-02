@@ -23,13 +23,15 @@ export const company = {
   foundingYear: 1995, // Confirmed by client, 2 Nov 2026.
   url: "https://imgengi.com",
   phone: { display: "0700 14 400", href: "tel:070014400" }, // Confirmed by client.
+  facebook: "https://www.facebook.com/img.engineering.ltd/", // Supplied by client, 2 Nov 2026.
   email: "office@imgengi.com" as string | null, // Confirmed by client, 2 Nov 2026.
   hours: {
     display: "Понеделник – петък, 8:30 – 17:30",
     short: "Пон. – пет. 8:30 – 17:30",
     schema: [{ days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "08:30", closes: "17:30" }],
   }, // Confirmed by client, 2 Nov 2026.
-  address: { street: "ул. Ладога", city: "София", country: "BG" }, // building number / postcode NOT verified
+  address: { street: "ул. Ладога", city: "София", country: "BG" }, // building number / postcode NOT verified. Old site still shows ул. Дедеагач 40: do not use.
+  geo: { lat: 42.6977, lng: 23.3219 }, // Sofia centre, used for the service-area circle (not the office location).
   description:
     "Българска инженерна компания за отопление, климатизация и вентилация. Проектиране, доставка, монтаж и поддръжка на сградни инсталации за дома и бизнеса.",
 } as const;
@@ -94,6 +96,7 @@ export const mainNav: NavItem[] = [
   { label: "За бизнеса", href: "/za-biznesa/" },
   { label: "Услуги", href: "/uslugi/" },
   { label: "Проекти", href: "/proekti/" },
+  { label: "Оферти", href: "/oferti/" },
   { label: "Полезно", href: "/polezno/" },
   { label: "За нас", href: "/za-nas/" },
   { label: "Контакти", href: "/kontakti/" },

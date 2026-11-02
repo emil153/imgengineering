@@ -90,7 +90,7 @@ export default async function GuidePage({ params }: { params: Promise<Params> })
           </aside>
 
           <div className="lg:col-span-8">
-            <section aria-labelledby="summary-title" className="border-l-2 border-img-green bg-img-grey-light p-6 md:p-8">
+            <section aria-labelledby="summary-title" className="border-l-4 border-img-green bg-img-green-soft p-6 md:p-8">
               <h2 id="summary-title" className="font-mono text-xs font-medium uppercase tracking-[0.14em]">
                 Накратко
               </h2>

@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/za-biznesa/",
     "/uslugi/",
     ...servicePages.map((s) => `/uslugi/${s.slug}/`),
+    "/oferti/",
     "/proekti/",
     ...projects.map((p) => `/proekti/${p.slug}/`),
     "/polezno/",

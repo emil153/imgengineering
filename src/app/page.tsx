@@ -8,6 +8,9 @@ import { WhyIMG } from "@/components/sections/WhyIMG";
 import { ProcessSection } from "@/components/sections/ProcessSection";
 import { KnowledgeSection } from "@/components/sections/KnowledgeSection";
 import { ContactCTA } from "@/components/sections/ContactCTA";
+import { OffersTeaser } from "@/components/sections/OffersTeaser";
+import { ServiceArea } from "@/components/sections/ServiceArea";
+import { ShopTeaser } from "@/components/sections/ShopTeaser";
 import { JsonLd, organizationSchema } from "@/lib/structured-data";
 
 const title = "IMG Engineering | Отопление, климатизация и вентилация";
@@ -27,14 +30,17 @@ export default function HomePage() {
     <>
       <JsonLd data={organizationSchema()} />
       <Hero />
+      <OffersTeaser />
       <TrustSection />
       <AudiencePathways />
       <ServicesSection />
       <FeaturedProjects />
       <WhyIMG />
-      <ProcessSection />
+      <ProcessSection index="07" />
+      <ServiceArea index="08" />
       <KnowledgeSection />
-      <ContactCTA />
+      <ShopTeaser />
+      <ContactCTA index="10" />
     </>
   );
 }

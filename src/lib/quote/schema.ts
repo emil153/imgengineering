@@ -3,7 +3,11 @@
  * No external validation library: the rules are few and explicit.
  */
 
+import { offers } from "@/content/offers";
+
 export type Audience = "b2c" | "b2b";
+
+export const OFFER_OPTIONS = offers.map((o) => ({ value: o.slug, label: o.title }));
 
 export const SERVICE_OPTIONS = [
   { value: "termopompi", label: "Термопомпа" },
@@ -44,6 +48,7 @@ export type QuoteInput = {
   area: string;
   location: string;
   message: string;
+  offer: string;
   marketingConsent: boolean;
 };
 
@@ -58,6 +63,7 @@ export type QuoteData = {
   area: string | null;
   location: string;
   message: string | null;
+  offer: string | null;
   marketingConsent: boolean;
 };
 
@@ -95,6 +101,7 @@ export function fromFormData(fd: FormData): QuoteInput {
     area: get("area"),
     location: get("location"),
     message: get("message"),
+    offer: get("offer"),
     marketingConsent: fd.get("marketingConsent") === "on" || fd.get("marketingConsent") === "true",
   };
 }
@@ -111,6 +118,8 @@ export function validateQuote(raw: QuoteInput): { ok: true; data: QuoteData } | 
   const area = clean(raw.area, LIMITS.area);
   const location = clean(raw.location, LIMITS.location);
   const message = clean(raw.message, LIMITS.message);
+  // Unknown offer slugs are dropped silently rather than blocking a real enquiry.
+  const offer = OFFER_OPTIONS.some((o) => o.value === raw.offer) ? raw.offer : null;
 
   if (!audience) errors.audience = "Изберете дали запитването е за дома или за бизнес обект.";
   if (name.length < 2) errors.name = "Въведете вашето име.";
@@ -141,6 +150,7 @@ export function validateQuote(raw: QuoteInput): { ok: true; data: QuoteData } | 
       area: area || null,
       location,
       message: message || null,
+      offer,
       marketingConsent: Boolean(raw.marketingConsent),
     },
   };

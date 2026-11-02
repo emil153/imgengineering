@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/hub/Breadcrumbs";
+import { ServiceArea } from "@/components/sections/ServiceArea";
 import { QuoteForm } from "@/components/quote/QuoteForm";
 import { Eyebrow, PhoneIcon } from "@/components/ui";
 import { company } from "@/content/site";
@@ -38,7 +39,7 @@ export default function ContactPage() {
           },
         }}
       />
-      <section aria-labelledby="contact-title" className="bg-img-grey-light">
+      <section aria-labelledby="contact-title" className="bg-img-green-soft">
         <div className="container-x pt-8 md:pt-10">
           <Breadcrumbs items={[{ label: "Контакти", href: "/kontakti/" }]} />
         </div>
@@ -96,6 +97,7 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      <ServiceArea index="02" />
     </>
   );
 }
