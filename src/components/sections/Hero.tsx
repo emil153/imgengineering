@@ -4,6 +4,7 @@ import { getOffer } from "@/content/offers";
 import { company, hero } from "@/content/site";
 import { CountUp } from "../CountUp";
 import { HeroVideo } from "../HeroVideo";
+import { FreeVisitNote } from "../offers/FreeVisitNote";
 import { ArrowIcon, ButtonLink, Eyebrow, cx, tone, type Tone } from "../ui";
 
 const yearsInBusiness = () => new Date().getFullYear() - company.foundingYear;
@@ -56,6 +57,7 @@ export function Hero() {
               {hero.secondary.label}
             </ButtonLink>
           </div>
+          <FreeVisitNote className="mt-6" />
         </div>
 
         <div className="relative lg:col-span-6">

@@ -8,13 +8,14 @@ import { bannerOffers } from "@/content/offers";
  */
 export function OfferBanner() {
   if (bannerOffers.length === 0) return null;
-  const items = [...bannerOffers, ...bannerOffers, ...bannerOffers];
+  const one = bannerOffers.flatMap((o) => [o.banner, ...(o.bannerDetails ?? [])]);
+  const items = [...one, ...one, ...one];
   const Row = ({ hidden }: { hidden?: boolean }) => (
     <ul className="flex shrink-0 items-center" aria-hidden={hidden || undefined}>
-      {items.map((o, i) => (
-        <li key={`${o.slug}-${i}`} className="flex items-center whitespace-nowrap px-6 text-[13px] font-medium md:text-sm">
+      {items.map((text, i) => (
+        <li key={`${text}-${i}`} className={"flex items-center whitespace-nowrap px-6 text-[13px] md:text-sm " + (i % one.length === 0 ? "font-semibold" : "font-medium")}>
           <span aria-hidden="true" className="mr-3 inline-block h-1.5 w-1.5 rotate-45 bg-img-black" />
-          {o.banner}
+          {text}
         </li>
       ))}
     </ul>
@@ -24,7 +25,7 @@ export function OfferBanner() {
       href="/oferti/"
       data-event="offer_banner_click"
       className="marquee group relative block overflow-hidden bg-img-yellow text-img-black"
-      aria-label={`Актуални оферти: ${bannerOffers.map((o) => o.banner).join("; ")}. Вижте всички оферти.`}
+      aria-label={`Актуална оферта: ${one.join(", ")}. Вижте офертата.`}
     >
       <div className="flex h-9 items-center">
         <div className="marquee-track flex w-max">
@@ -33,7 +34,7 @@ export function OfferBanner() {
         </div>
       </div>
       <span className="absolute inset-y-0 right-0 hidden items-center gap-2 bg-img-black px-4 text-[13px] font-semibold text-img-yellow transition-colors group-hover:bg-img-green group-hover:text-white sm:flex">
-        Всички оферти
+        Вижте офертата
         <svg aria-hidden="true" viewBox="0 0 20 20" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M3 10h13M11 5l5 5-5 5" />
         </svg>

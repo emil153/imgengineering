@@ -49,6 +49,7 @@ export type QuoteInput = {
   location: string;
   message: string;
   offer: string;
+  freeVisit: boolean;
   marketingConsent: boolean;
 };
 
@@ -64,6 +65,7 @@ export type QuoteData = {
   location: string;
   message: string | null;
   offer: string | null;
+  freeVisit: boolean;
   marketingConsent: boolean;
 };
 
@@ -102,6 +104,7 @@ export function fromFormData(fd: FormData): QuoteInput {
     location: get("location"),
     message: get("message"),
     offer: get("offer"),
+    freeVisit: fd.get("freeVisit") === "on" || fd.get("freeVisit") === "true",
     marketingConsent: fd.get("marketingConsent") === "on" || fd.get("marketingConsent") === "true",
   };
 }
@@ -151,6 +154,7 @@ export function validateQuote(raw: QuoteInput): { ok: true; data: QuoteData } | 
       location,
       message: message || null,
       offer,
+      freeVisit: Boolean(raw.freeVisit),
       marketingConsent: Boolean(raw.marketingConsent),
     },
   };

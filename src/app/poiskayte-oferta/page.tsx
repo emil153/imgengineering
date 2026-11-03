@@ -3,6 +3,7 @@ import { Breadcrumbs } from "@/components/hub/Breadcrumbs";
 import { QuoteForm } from "@/components/quote/QuoteForm";
 import { PhoneIcon } from "@/components/ui";
 import { company } from "@/content/site";
+import { freeVisit } from "@/content/offers";
 
 const title = "Поискайте оферта";
 const description =
@@ -36,6 +37,12 @@ export default function QuotePage() {
             <p className="mt-6 text-lg leading-relaxed text-img-grey-dark">
               Разкажете ни за вашия дом или бизнес обект и ще ви помогнем да намерите подходящото техническо решение.
             </p>
+
+            <div className="mt-8 border-l-4 border-img-green bg-white p-5">
+              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-img-green">Безплатно</p>
+              <p className="mt-1 text-lg font-semibold">{freeVisit.title}</p>
+              <p className="mt-1 text-[15px] leading-relaxed text-img-grey-dark">Отбележете го във формата. {freeVisit.condition}</p>
+            </div>
 
             <ol className="mt-10 border-t border-black/15">
               {steps.map((s, i) => (

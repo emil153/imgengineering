@@ -1,15 +1,10 @@
 /**
- * Offers (/oferti/), the rolling banner and the new-customer discount.
+ * Offers (/oferti/), the rolling banner and the free site visit / heating calculation.
  *
- * status:
- *  - "confirmed": requested/confirmed by the client. Shown everywhere, including the rolling banner.
- *  - "to-confirm": seen on the current imgengi.com, but terms or validity are unclear. Shown on /oferti/ with a badge.
- *  - "proposal": seasonal offer proposed by the agency. Shown on /oferti/ with a badge; needs IMG approval and pricing.
- * Set SHOW_UNCONFIRMED_OFFERS to false before launch to hide everything except "confirmed".
+ * status: "confirmed" offers appear everywhere, including the rolling banner.
+ * "to-confirm" / "proposal" are kept for future use and show a visible badge on /oferti/.
  */
 import { quoteHref, type Media } from "./site";
-
-export const SHOW_UNCONFIRMED_OFFERS = true;
 
 export type Season = "heating" | "cooling" | "all-year";
 
@@ -18,6 +13,8 @@ export type Offer = {
   status: "confirmed" | "to-confirm" | "proposal";
   title: string;
   banner: string;
+  /** Extra details that roll in the top banner after the headline. */
+  bannerDetails?: string[];
   badge: string;
   price?: { prefix?: string; value: string; unit: string; note?: string };
   lead: string;
@@ -31,20 +28,30 @@ export type Offer = {
   tone: "red" | "blue" | "yellow" | "green";
 };
 
+/**
+ * Only the underfloor heating offer is active (client decision, 3 Nov 2026).
+ * Details from the body of the current imgengi.com offer page. The "5-year warranty", "€20" and
+ * "ends August 30" appear only in that page's meta description, so they are NOT used here.
+ */
 export const offers: Offer[] = [
   {
     slug: "podovo-otoplenie-22-eur",
     status: "confirmed",
     title: "Водно подово отопление от 22 € / m²",
-    banner: "Водно подово отопление от 22 € / m² с доставка и монтаж",
-    badge: "Актуална оферта",
-    price: { prefix: "от", value: "22 €", unit: "/ m²", note: "без ДДС" },
-    lead: "Водно подово отопление с доставка на материалите и монтаж от екипа на IMG Engineering.",
-    includes: [
-      "Тръба за подово отопление HERZ 16 × 2 с кислородна бариера",
+    banner: "Водно подово отопление от 22 € / m² без ДДС",
+    bannerDetails: [
+      "Тръба HERZ 16 × 2 с кислородна бариера",
       "Подложка SPS 200, 1 cm",
-      "Доставка на материалите до обекта",
-      "Монтаж от екипа на IMG Engineering",
+      "Доставка и монтаж от екипа на IMG Engineering",
+    ],
+    badge: "Актуална оферта",
+    price: { prefix: "от", value: "22 €", unit: "/ m²", note: "без ДДС, с доставка и монтаж" },
+    lead: "Водно подово отопление с доставка на всички материали до обекта и професионален монтаж от екипа на IMG Engineering.",
+    includes: [
+      "Тръба за подово отопление HERZ 16 × 2 с кислородна бариера: качествено решение за надеждна и ефективна система",
+      "Подложка SPS 200, 1 cm: основа за правилен монтаж и ефективно разпределение на топлината",
+      "Доставка на всички необходими материали до обекта",
+      "Професионален монтаж от екипа на IMG Engineering",
     ],
     conditions: [
       "Цената е без ДДС.",
@@ -57,88 +64,23 @@ export const offers: Offer[] = [
     media: { src: "/images/dom-podovo-otoplenie-kragove.webp", width: 1200, height: 900, alt: "Кръгове на водно подово отопление върху системни плочи" },
     tone: "red",
   },
-  {
-    slug: "novi-klienti-5",
-    status: "confirmed",
-    title: "5% отстъпка за нови клиенти",
-    banner: "5% отстъпка за нови клиенти",
-    badge: "За нови клиенти",
-    price: { value: "−5%", unit: "", note: "от стойността на офертата" },
-    lead: "Попълнете формата и отстъпката ще бъде отразена в офертата за вашия обект.",
-    includes: ["Валидна за всички услуги: отопление, климатизация, вентилация, термопомпи, подово отопление"],
-    conditions: [
-      "Отстъпката се прилага към първата поръчка на нов клиент.",
-      "[Комбиниране с други оферти и изключения: за потвърждение]",
-    ],
-    validity: "[Срок на валидност: за потвърждение]",
-    audience: "all",
-    season: "all-year",
-    tone: "green",
-  },
-  {
-    slug: "ariston-nimbus-5",
-    status: "to-confirm",
-    title: "5% отстъпка за термопомпи Ariston Nimbus R32",
-    banner: "5% отстъпка за термопомпи Ariston Nimbus R32",
-    badge: "Термопомпи",
-    price: { value: "−5%", unit: "", note: "за модели Ariston Nimbus R32" },
-    lead: "Отстъпка за термопомпи въздух-вода Ariston Nimbus с хладилен агент R32.",
-    includes: ["Подбор на модела според топлинните нужди на сградата", "Доставка и монтаж"],
-    conditions: ["[Условия и срок: за потвърждение. Офертата е посочена на сегашния сайт без подробности.]"],
-    validity: "[за потвърждение]",
-    audience: "b2c",
-    season: "heating",
-    service: "termopompi",
-    media: { src: "/images/dom-termopompa-vanshno-tyalo.webp", width: 1013, height: 760, alt: "Външно тяло на термопомпа Ariston до къща" },
-    tone: "yellow",
-  },
-  {
-    slug: "profilaktika-otoplenie",
-    status: "proposal",
-    title: "Профилактика преди отоплителния сезон",
-    banner: "Профилактика на термопомпи и котли преди зимата",
-    badge: "Есен и зима",
-    lead: "Проверка на термопомпи, котли и отоплителни инсталации, преди да се натоварят в студените месеци.",
-    includes: [
-      "Проверка на работните параметри",
-      "Почистване на филтри и топлообменници",
-      "Проверка на налягането и обезвъздушаване на инсталацията",
-      "Препоръки за настройка и ремонт",
-    ],
-    conditions: ["[Цена и обхват: за определяне от IMG Engineering]"],
-    validity: "Септември – ноември",
-    audience: "all",
-    season: "heating",
-    service: "serviz-i-poddrazhka",
-    media: { src: "/images/biznes-vibrodiagnostika.webp", width: 506, height: 380, alt: "Диагностика на оборудване с уред Fluke" },
-    tone: "red",
-  },
-  {
-    slug: "profilaktika-klimatik",
-    status: "proposal",
-    title: "Профилактика на климатик преди лятото",
-    banner: "Профилактика на климатици преди жегите",
-    badge: "Пролет и лято",
-    lead: "Почистване и проверка на климатиците, преди да започне сезонът на охлаждане и графиците се запълнят.",
-    includes: [
-      "Почистване на филтрите и топлообменниците на вътрешното и външното тяло",
-      "Проверка на дренажа",
-      "Проверка на работните параметри",
-    ],
-    conditions: ["[Цена на тяло и отстъпка при повече тела: за определяне от IMG Engineering]"],
-    validity: "Март – май",
-    audience: "all",
-    season: "cooling",
-    service: "klimatizatsiya",
-    media: { src: "/images/dom-klimatik-i-radiator.webp", width: 1013, height: 760, alt: "Стенен климатик в жилищно помещение" },
-    tone: "blue",
-  },
 ];
 
-export const visibleOffers = offers.filter((o) => SHOW_UNCONFIRMED_OFFERS || o.status === "confirmed");
+export const visibleOffers = offers;
 export const bannerOffers = offers.filter((o) => o.status === "confirmed");
 export const getOffer = (slug: string) => offers.find((o) => o.slug === slug);
-export const newCustomerOffer = offers.find((o) => o.slug === "novi-klienti-5")!;
+
+/**
+ * Standing benefit (client request, 3 Nov 2026), not a time-limited offer.
+ * Wording follows the client: "оглед или изчисление". Area condition follows the service area.
+ */
+export const freeVisit = {
+  title: "Безплатен оглед или изчисление на отоплението",
+  text: "Наш специалист ще огледа обекта или ще изчисли необходимата мощност на отоплението, за да получите точна оферта. Без ангажимент от ваша страна.",
+  points: ["Оглед на обекта от специалист", "Изчисление на необходимата мощност на отоплението", "Без ангажимент: първо получавате оферта"],
+  condition: "За обекти в София и населените места в радиус от 30 km.",
+  href: "/poiskayte-oferta/?ogled=1",
+};
 
 export const offerQuoteHref = (o: Offer) => {
   const q = new URLSearchParams({ oferta: o.slug });

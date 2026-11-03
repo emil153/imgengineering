@@ -8,6 +8,10 @@ const shortDescription = (slug: string) => services.find((x) => x.slug === slug)
 import { JsonLd } from "@/lib/structured-data";
 import { Breadcrumbs } from "../hub/Breadcrumbs";
 import { FaqSection } from "../hub/FaqSection";
+import { FreeVisitNote } from "../offers/FreeVisitNote";
+
+/** Services where a free site visit / heating calculation is relevant. */
+const FREE_VISIT_SERVICES = new Set(["otoplenie", "termopompi", "podovo-otoplenie", "gazifikatsiya", "ovk-proektirane", "tsyalostno-reshenie"]);
 import { LogoWall } from "../LogoWall";
 import { ContactCTA } from "../sections/ContactCTA";
 import { ProcessSection } from "../sections/ProcessSection";
@@ -79,6 +83,7 @@ export function ServicePageView({ service }: { service: ServicePage }) {
                 {company.phone.display}
               </ButtonLink>
             </div>
+            {FREE_VISIT_SERVICES.has(service.slug) && <FreeVisitNote className="mt-6" />}
             <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.12em] text-img-grey-dark">{company.hours.display}</p>
           </div>
           <div className="lg:col-span-6">

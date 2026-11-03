@@ -8,6 +8,7 @@ import { ProcessSection } from "../sections/ProcessSection";
 import { ArrowIcon, ButtonLink, Eyebrow, PhoneIcon, TONES, cx, tone } from "../ui";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { FaqSection } from "./FaqSection";
+import { FreeVisitNote } from "../offers/FreeVisitNote";
 
 /**
  * One template for both audience hubs (За дома / За бизнеса).
@@ -47,6 +48,7 @@ export function HubPage({ hub }: { hub: Hub }) {
                 {company.phone.display}
               </ButtonLink>
             </div>
+            <FreeVisitNote className="mt-6" />
             <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.12em] text-img-grey-dark">{company.hours.display}</p>
           </div>
           <div className="lg:col-span-6">

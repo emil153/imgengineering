@@ -23,6 +23,7 @@ const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&
 function rows(lead: Lead): [string, string][] {
   const props = lead.audience === "b2b" ? PROPERTY_OPTIONS_B2B : PROPERTY_OPTIONS_B2C;
   const r: [string, string | null][] = [
+    ["Безплатен оглед / изчисление", lead.freeVisit ? "Да, клиентът желае" : null],
     ["Оферта", lead.offer ? labelOf(OFFER_OPTIONS, lead.offer) : null],
     ["Тип запитване", lead.audience === "b2b" ? "Бизнес обект" : "Дом"],
     ["Име", lead.name],
@@ -65,7 +66,8 @@ function notificationText(lead: Lead) {
 function subject(lead: Lead) {
   const who = lead.audience === "b2b" ? `Бизнес: ${lead.company}` : "Дом";
   const offer = lead.offer ? `[${labelOf(OFFER_OPTIONS, lead.offer)}] ` : "";
-  return `${offer}Ново запитване (${who}) · ${labelOf(SERVICE_OPTIONS, lead.service)} · ${lead.location}`;
+  const visit = lead.freeVisit ? "[Безплатен оглед] " : "";
+  return `${visit}${offer}Ново запитване (${who}) · ${labelOf(SERVICE_OPTIONS, lead.service)} · ${lead.location}`;
 }
 
 async function brevoSend(payload: object): Promise<{ ok: boolean; status: number; error?: string }> {

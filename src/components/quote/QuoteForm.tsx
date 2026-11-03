@@ -90,9 +90,11 @@ type QuoteFormProps = {
   /** Pre-attach an offer (e.g. the new-customer discount form). URL ?oferta= also works. */
   offer?: string;
   submitLabel?: string;
+  /** Pre-tick the free site visit / heating calculation box. URL ?ogled=1 also works. */
+  freeVisitDefault?: boolean;
 };
 
-export function QuoteForm({ offer: fixedOffer, submitLabel = "Изпратете запитване" }: QuoteFormProps = {}) {
+export function QuoteForm({ offer: fixedOffer, submitLabel = "Изпратете запитване", freeVisitDefault = false }: QuoteFormProps = {}) {
   const formRef = useRef<HTMLFormElement>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
   const successRef = useRef<HTMLHeadingElement>(null);
@@ -114,6 +116,7 @@ export function QuoteForm({ offer: fixedOffer, submitLabel = "Изпратете
     if (audience) (form.querySelector(`input[name="audience"][value="${audience}"]`) as HTMLInputElement | null)?.click();
     const oferta = q.get("oferta");
     if (!fixedOffer && oferta && OFFER_OPTIONS.some((o) => o.value === oferta)) setOffer(oferta);
+    if (q.get("ogled") === "1") (form.elements.namedItem("freeVisit") as HTMLInputElement).checked = true;
     const usluga = q.get("usluga");
     if (usluga && SERVICE_OPTIONS.some((o) => o.value === usluga)) (form.elements.namedItem("service") as HTMLSelectElement).value = usluga;
   }, [fixedOffer]);
@@ -396,7 +399,16 @@ export function QuoteForm({ offer: fixedOffer, submitLabel = "Изпратете
         </div>
       </div>
 
-      {/* 4. Privacy */}
+      {/* 4. Free site visit / heating calculation (standing benefit) */}
+      <label className="mt-8 flex cursor-pointer items-start gap-3 border border-img-green/40 bg-img-green-soft p-4 transition-colors hover:border-img-green has-[:checked]:border-img-green has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2">
+        <input type="checkbox" name="freeVisit" defaultChecked={freeVisitDefault} className="mt-1 h-4 w-4 shrink-0 accent-[#396039]" />
+        <span>
+          <span className="block font-semibold">Искам безплатен оглед или изчисление на отоплението</span>
+          <span className="block text-sm text-img-grey-dark">За обекти в София и населените места в радиус от 30 km.</span>
+        </span>
+      </label>
+
+      {/* 5. Privacy */}
       <div className="mt-8 border-t border-black/10 pt-6">
         <label className="flex cursor-pointer items-start gap-3 text-[15px] leading-relaxed">
           <input type="checkbox" name="marketingConsent" className="mt-1 h-4 w-4 shrink-0 accent-[#396039]" />
