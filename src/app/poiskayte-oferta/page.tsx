@@ -41,7 +41,7 @@ export default function QuotePage() {
             <div className="mt-8 border-l-4 border-img-green bg-white p-5">
               <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-img-green">Безплатно</p>
               <p className="mt-1 text-lg font-semibold">{freeVisit.title}</p>
-              <p className="mt-1 text-[15px] leading-relaxed text-img-grey-dark">Отбележете го във формата. {freeVisit.condition}</p>
+              <p className="mt-1 text-[15px] leading-relaxed text-img-grey-dark">За домове: отбележете го във формата. {freeVisit.condition}</p>
             </div>
 
             <ol className="mt-10 border-t border-black/15">

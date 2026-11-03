@@ -60,7 +60,7 @@ export default function AboutPage() {
         <dl className="container-x grid grid-cols-2 border-t border-black/10 lg:grid-cols-4">
           {[
             ["Основана", `${company.foundingYear} г.`],
-            ["Дружество", company.legalName],
+            ["Дружество", `${company.legalName}, ЕИК ${company.eik}`],
             ["Офис", `${company.address.street}, ${company.address.city}`],
             ["Клиенти", "Дом и бизнес"],
           ].map(([k, v], i) => (

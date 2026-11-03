@@ -48,7 +48,7 @@ export function HubPage({ hub }: { hub: Hub }) {
                 {company.phone.display}
               </ButtonLink>
             </div>
-            <FreeVisitNote className="mt-6" />
+            {hub.key === "b2c" && <FreeVisitNote className="mt-6" />}
             <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.12em] text-img-grey-dark">{company.hours.display}</p>
           </div>
           <div className="lg:col-span-6">

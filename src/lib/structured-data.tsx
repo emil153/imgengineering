@@ -11,6 +11,8 @@ export function organizationSchema() {
     "@type": "Organization",
     name: company.name,
     legalName: company.legalName,
+    taxID: company.eik,
+    identifier: { "@type": "PropertyValue", propertyID: "ЕИК", value: company.eik },
     url: company.url,
     foundingDate: String(company.foundingYear),
     telephone: company.phone.display,

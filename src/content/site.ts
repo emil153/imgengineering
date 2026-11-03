@@ -20,6 +20,13 @@ export const disciplineColor: Record<Discipline, string> = {
 export const company = {
   name: "IMG Engineering",
   legalName: "Ай Ем Джи Инженеринг ООД", // Master Brief 2.1
+  eik: "121152090", // Supplied by client, 3 Nov 2026.
+  registeredAddress: {
+    display: "гр. София 1336, р-н Люлин, жк Люлин 1, ул. „Фортов път“ № 15, ет. 2, ап. 2",
+    street: "ул. „Фортов път“ № 15, ет. 2, ап. 2",
+    postalCode: "1336",
+    city: "София",
+  }, // Seat and registered address, supplied by client 3 Nov 2026. Office stays ул. Ладога.
   foundingYear: 1995, // Confirmed by client, 2 Nov 2026.
   url: "https://imgengi.com",
   phone: { display: "0700 14 400", href: "tel:070014400" }, // Confirmed by client.
@@ -30,7 +37,7 @@ export const company = {
     short: "Пон. – пет. 8:30 – 17:30",
     schema: [{ days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "08:30", closes: "17:30" }],
   }, // Confirmed by client, 2 Nov 2026.
-  address: { street: "ул. Ладога", city: "София", country: "BG" }, // building number / postcode NOT verified. Old site still shows ул. Дедеагач 40: do not use.
+  address: { street: "ул. Ладога", city: "София", country: "BG" }, // Office. Client confirmed 3 Nov 2026 it stays ул. Ладога; building number / postcode not supplied. Do not use ул. Дедеагач 40.
   geo: { lat: 42.6977, lng: 23.3219 }, // Sofia centre, used for the service-area circle (not the office location).
   description:
     "Българска инженерна компания за отопление, климатизация и вентилация. Проектиране, доставка, монтаж и поддръжка на сградни инсталации за дома и бизнеса.",

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { freeVisit } from "@/content/offers";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { company } from "@/content/site";
 import {
@@ -117,9 +118,11 @@ export function QuoteForm({ offer: fixedOffer, submitLabel = "Изпратете
     const oferta = q.get("oferta");
     if (!fixedOffer && oferta && OFFER_OPTIONS.some((o) => o.value === oferta)) setOffer(oferta);
     if (q.get("ogled") === "1") (form.elements.namedItem("freeVisit") as HTMLInputElement).checked = true;
+    // The free visit is for homes only, so asking for it pre-selects "Дом".
+    if (!audience && (freeVisitDefault || q.get("ogled") === "1")) (form.querySelector('input[name="audience"][value="b2c"]') as HTMLInputElement | null)?.click();
     const usluga = q.get("usluga");
     if (usluga && SERVICE_OPTIONS.some((o) => o.value === usluga)) (form.elements.namedItem("service") as HTMLSelectElement).value = usluga;
-  }, [fixedOffer]);
+  }, [fixedOffer, freeVisitDefault]);
 
   const onFirstInteraction = () => {
     if (started.current) return;
@@ -400,11 +403,11 @@ export function QuoteForm({ offer: fixedOffer, submitLabel = "Изпратете
       </div>
 
       {/* 4. Free site visit / heating calculation (standing benefit) */}
-      <label className="mt-8 flex cursor-pointer items-start gap-3 border border-img-green/40 bg-img-green-soft p-4 transition-colors hover:border-img-green has-[:checked]:border-img-green has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2">
+      <label className="b2c-only mt-8 flex cursor-pointer items-start gap-3 border border-img-green/40 bg-img-green-soft p-4 transition-colors hover:border-img-green has-[:checked]:border-img-green has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2">
         <input type="checkbox" name="freeVisit" defaultChecked={freeVisitDefault} className="mt-1 h-4 w-4 shrink-0 accent-[#396039]" />
         <span>
           <span className="block font-semibold">Искам безплатен оглед или изчисление на отоплението</span>
-          <span className="block text-sm text-img-grey-dark">За обекти в София и населените места в радиус от 30 km.</span>
+          <span className="block text-sm text-img-grey-dark">{freeVisit.condition}</span>
         </span>
       </label>
 

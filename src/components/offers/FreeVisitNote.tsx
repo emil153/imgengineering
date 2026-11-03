@@ -16,7 +16,7 @@ export function FreeVisitNote({ className }: { className?: string }) {
         </svg>
       </span>
       <span className="underline decoration-img-green/40 decoration-2 underline-offset-4 transition-colors group-hover:text-img-green group-hover:decoration-img-green">
-        {freeVisit.title}
+        {freeVisit.short}
       </span>
     </Link>
   );

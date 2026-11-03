@@ -57,7 +57,7 @@ export const offers: Offer[] = [
       "Цената е без ДДС.",
       "Окончателната цена се определя според площта и конкретния обект и се посочва в индивидуалната оферта.",
     ],
-    validity: "[Срок на валидност: за потвърждение]",
+    validity: "Офертата е валидна до 31 декември 2026 г.",
     audience: "b2c",
     season: "heating",
     service: "podovo-otoplenie",
@@ -72,13 +72,15 @@ export const getOffer = (slug: string) => offers.find((o) => o.slug === slug);
 
 /**
  * Standing benefit (client request, 3 Nov 2026), not a time-limited offer.
- * Wording follows the client: "оглед или изчисление". Area condition follows the service area.
+ * Confirmed by client 3 Nov 2026: both visit and calculation are free; Sofia + 30 km; homes only, not business sites.
  */
 export const freeVisit = {
   title: "Безплатен оглед или изчисление на отоплението",
   text: "Наш специалист ще огледа обекта или ще изчисли необходимата мощност на отоплението, за да получите точна оферта. Без ангажимент от ваша страна.",
   points: ["Оглед на обекта от специалист", "Изчисление на необходимата мощност на отоплението", "Без ангажимент: първо получавате оферта"],
-  condition: "За обекти в София и населените места в радиус от 30 km.",
+  /** Short label for links; makes the home-only condition visible everywhere. */
+  short: "Безплатен оглед или изчисление на отоплението за дома",
+  condition: "За домове (къщи и апартаменти) в София и населените места в радиус от 30 km. Не важи за бизнес обекти.",
   href: "/poiskayte-oferta/?ogled=1",
 };
 

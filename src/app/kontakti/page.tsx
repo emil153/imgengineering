@@ -82,6 +82,9 @@ export default function ContactPage() {
                       <br />
                       {company.address.street}, {company.address.city}
                     </address>
+                    <p className="mt-3 text-[15px] text-img-grey-dark">
+                      ЕИК {company.eik}. Седалище и адрес на управление: {company.registeredAddress.display}.
+                    </p>
                     <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex border-b border-current pb-0.5 text-[15px] font-medium hover:text-img-green">
                       Отворете в Google Maps<span className="sr-only"> (отваря се в нов прозорец)</span>
                     </a>

@@ -154,7 +154,8 @@ export function validateQuote(raw: QuoteInput): { ok: true; data: QuoteData } | 
       location,
       message: message || null,
       offer,
-      freeVisit: Boolean(raw.freeVisit),
+      // Free visit is for homes only (client, 3 Nov 2026).
+      freeVisit: audience === "b2c" && Boolean(raw.freeVisit),
       marketingConsent: Boolean(raw.marketingConsent),
     },
   };

@@ -107,7 +107,7 @@ export function Footer() {
       <div className="border-t border-black/10">
         <div className="container-x flex flex-col gap-4 py-6 text-sm text-img-grey-dark md:flex-row md:items-center md:justify-between">
           <p>
-            © {year} {company.legalName}. Всички права запазени.
+            © {year} {company.legalName}, ЕИК {company.eik}. Всички права запазени.
           </p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             {legalNav.map((l) => (

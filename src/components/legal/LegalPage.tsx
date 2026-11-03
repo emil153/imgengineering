@@ -14,7 +14,7 @@ export function LegalPage({ title, path, intro, sections }: { title: string; pat
           <h1 id="legal-title" className="text-balance text-4xl font-semibold tracking-[-0.03em] md:text-5xl">
             {title}
           </h1>
-          <p className="mt-4 font-mono text-xs uppercase tracking-[0.12em] text-img-grey-dark">Последна актуализация: [предстои]</p>
+          <p className="mt-4 font-mono text-xs uppercase tracking-[0.12em] text-img-grey-dark">Последна актуализация: 3 ноември 2026 г.</p>
           <PrototypeNote className="mt-8">
             Чернова за юридически преглед. Данните в квадратни скоби предстои да бъдат попълнени от IMG Engineering.
           </PrototypeNote>
